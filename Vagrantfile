@@ -49,8 +49,11 @@ Vagrant.configure("2") do |config|
 
   # Install and build LLVM
   config.vm.provision "build-llvm", type: "shell", run: "never", inline: <<-SHELL
-    git clone https://github.com/llvm/llvm-project.git
+    if [ ! -d llvm-project ]; then
+      git clone https://github.com/llvm/llvm-project.git
+    fi
     cd llvm-project
+    git pull
     mkdir -p llvm/build
     cd llvm/build
     cmake .. -G "Ninja" -DLLVM_TARGETS_TO_BUILD="BPF;X86" \
