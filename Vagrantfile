@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.synced_folder "../bpf-next", "/bpf-next", type: "nfs", nfs_version: 4, "nfs_udp": false, mount_options: ["rw", "tcp"]
+  config.vm.synced_folder "../../../bpf/libbpf-bootstrap", "/libbpf-bootstrap", type: "nfs", nfs_version: 4, "nfs_udp": false, mount_options: ["rw", "tcp"]
 
   # Create GRUB2 config
   config.vm.provision "grub-cfg", type: "shell", inline: <<-SHELL
