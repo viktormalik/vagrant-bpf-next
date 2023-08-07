@@ -21,7 +21,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "install", type: "shell", inline: <<-SHELL
     dnf install -y gcc g++ make cmake git ninja-build clang llvm vim lld bc \
       elfutils-devel binutils-devel libcap-devel python3-docutils \
-      openssl-devel iptables-legacy iproute-tc ethtool cargo bpftool gdb
+      openssl-devel iptables-legacy iproute-tc ethtool cargo bpftool gdb \
+      llvm-devel clang-devel
   SHELL
 
   # Boot kernel
@@ -50,6 +51,7 @@ Vagrant.configure("2") do |config|
 
   # Install and build LLVM
   config.vm.provision "build-llvm", type: "shell", run: "never", inline: <<-SHELL
+    dnf remove llvm-devel clang-devel
     if [ ! -d llvm-project ]; then
       git clone https://github.com/llvm/llvm-project.git
     fi
