@@ -19,10 +19,11 @@ Vagrant.configure("2") do |config|
 
   # Install dependencies
   config.vm.provision "install", type: "shell", inline: <<-SHELL
+    dnf update -y &&
     dnf install -y gcc g++ make cmake git ninja-build clang llvm vim lld bc \
       elfutils-devel binutils-devel libcap-devel python3-docutils \
       openssl-devel iptables-legacy iproute-tc ethtool cargo bpftool gdb \
-      llvm-devel clang-devel
+      llvm-devel clang-devel rsync bison flex
   SHELL
 
   # Boot kernel
