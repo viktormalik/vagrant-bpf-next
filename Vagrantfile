@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "fedora/39-cloud-base"
+  config.vm.box = "fedora/40-cloud-base"
 
   config.vm.provider "libvirt" do |v|
     v.memory = 8192
