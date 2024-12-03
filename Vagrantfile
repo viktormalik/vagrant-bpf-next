@@ -26,6 +26,12 @@ Vagrant.configure("2") do |config|
       llvm-devel clang-devel rsync bison flex
   SHELL
 
+  # Install latest LLVM
+  config.vm.provision "llvm-install", type: "shell", inline: <<-SHELL
+    dnf copr enable -y @fedora-llvm-team/llvm-snapshots
+    dnf install -y llvm clang llvm-devel clang-devel
+  SHELL
+
   # Boot kernel
   config.vm.provision "kernel-install", type: "shell", run: "always", inline: <<-SHELL
     if ! cmp -s /boot/vmlinuz-$(uname -r) /bpf-next/arch/x86/boot/bzImage; then
@@ -48,23 +54,5 @@ Vagrant.configure("2") do |config|
     cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_RPATH="/usr/local/lib64" -D__LIB=lib64
     make -j4
     make install
-  SHELL
-
-  # Install and build LLVM
-  config.vm.provision "build-llvm", type: "shell", run: "never", inline: <<-SHELL
-    dnf remove llvm-devel clang-devel
-    if [ ! -d llvm-project ]; then
-      git clone https://github.com/llvm/llvm-project.git
-    fi
-    cd llvm-project
-    git pull
-    mkdir -p llvm/build
-    cd llvm/build
-    cmake .. -G "Ninja" -DLLVM_TARGETS_TO_BUILD="BPF;X86" \
-            -DLLVM_ENABLE_PROJECTS="clang"    \
-            -DCMAKE_BUILD_TYPE=Release        \
-            -DLLVM_BUILD_RUNTIME=OFF
-    ninja -j8
-    ninja install
   SHELL
 end
