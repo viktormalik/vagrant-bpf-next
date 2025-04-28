@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
     dnf install -y gcc g++ make cmake git ninja-build clang llvm vim lld bc \
       elfutils-devel binutils-devel libcap-devel python3-docutils \
       openssl-devel iptables-legacy iproute-tc ethtool cargo bpftool gdb \
-      llvm-devel clang-devel rsync bison flex dwarves
+      llvm-devel clang-devel rsync bison flex dwarves libxml2-devel
   SHELL
 
   # Install latest LLVM
