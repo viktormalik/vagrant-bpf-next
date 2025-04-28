@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
     dnf install -y gcc g++ make cmake git ninja-build clang llvm vim lld bc \
       elfutils-devel binutils-devel libcap-devel python3-docutils \
       openssl-devel iptables-legacy iproute-tc ethtool cargo bpftool gdb \
-      llvm-devel clang-devel rsync bison flex
+      llvm-devel clang-devel rsync bison flex dwarves
   SHELL
 
   # Install latest LLVM
@@ -45,8 +45,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :reload
 
-  # Build latest pahole
-  config.vm.provision "pahole", type: "shell", inline: <<-SHELL
+  # Build the latest pahole
+  config.vm.provision "pahole", type: "shell", run: "never", inline: <<-SHELL
     git clone https://git.kernel.org/pub/scm/devel/pahole/pahole.git
     cd pahole
     mkdir build
